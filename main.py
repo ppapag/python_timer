@@ -1,11 +1,13 @@
-from microbit import *
+last = control.millis()
+state = False
 
-last = running_time()
-
-while True:
-    now = running_time()
+def on_forever():
+    global last, state
+    now = control.millis()
     if now - last >= 200:
-        current = display.get_pixel(0, 0)
-        new = 0 if current > 0 else 9
-        display.set_pixel(0, 0, new)
+        state = not state
+        # led brightness 255 = on, 0 = off
+        led.plot(0, 0) if state else led.unplot(0, 0)
         last = now
+
+basic.forever(on_forever)
